@@ -107,15 +107,15 @@ Resources:
             - GroupId
       KeyName: !Ref KeyName    
    
- CFNAdminPolicies:
-   Type : 'AWS::IAM::Policy'
-   Properties : 
-     PolicyName : jenkisCFT
-     PolicyDocument : 
-       Statement:
-         Effect : 'Allow'
-         Action : 'cloudformation:*'
-         Resource : '*'
+  CFNAdminPolicies:
+    Type : 'AWS::IAM::Policy'
+    Properties : 
+      PolicyName : jenkisCFT
+      PolicyDocument : 
+        Statement:
+          Effect : 'Allow'
+          Action : 'cloudformation:*'
+          Resource : '*'
   
   ApplicationLoadBalancer:
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
