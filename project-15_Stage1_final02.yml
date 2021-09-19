@@ -1,8 +1,15 @@
 AWSTemplateFormatVersion: 2010-09-09
 
 Parameters:
-
-
+  VpcId:
+    Type: 'AWS::EC2::VPC::Id'
+    Description: VpcId of your existing Virtual Private Cloud (VPC)
+    ConstraintDescription: must be the VPC Id of an existing Virtual Private Cloud.
+    Default: VpcID
+  Subnets:
+    Type: 'List<AWS::EC2::Subnet::Id>'
+    Description: The list of SubnetIds in your Virtual Private Cloud (VPC)
+    Default: SubnetID
 
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
@@ -99,8 +106,17 @@ Resources:
             - WebServerSecurityGroup
             - GroupId
       KeyName: !Ref KeyName    
-        
-
+   
+ CFNAdminPolicies:
+   Type : 'AWS::IAM::Policy'
+   Properties : 
+     PolicyName : jenkisCFT
+     PolicyDocument : 
+       Statement:
+         Effect : 'Allow'
+         Action : 'cloudformation:*'
+         Resource : '*'
+  
   ApplicationLoadBalancer:
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
     Properties:
