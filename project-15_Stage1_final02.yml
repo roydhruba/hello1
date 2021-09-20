@@ -106,17 +106,28 @@ Resources:
             - WebServerSecurityGroup
             - GroupId
       KeyName: !Ref KeyName    
-   
-  CFNAdminPolicies:
-    Type : 'AWS::IAM::Policy'
-    Properties : 
-      PolicyName : jenkisCFT
-      PolicyDocument : 
+
+  CFNRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
         Statement:
-          Effect : 'Allow'
-          Action : 'cloudformation:*'
-          Resource : '*'
-  
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: [cloudformation.amazonaws.com]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: CloudFormationRole
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - 'ec2:*'
+                Effect: Allow
+                Resource: '*'
+
   ApplicationLoadBalancer:
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
     Properties:
